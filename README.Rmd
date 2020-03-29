@@ -71,6 +71,7 @@ cur_date <- sort(time_data$date) %>% tail(1) %>% format("%B %d, %Y")
 ![counties](`r counties`)
 ![hospitalization](`r hospitalizations`)
 
+### [stufield.github.io/COVID-19](https://stufield.github.io/COVID-19)
 
 # COVID-19 Pandemic - Colorado
 

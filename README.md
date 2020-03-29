@@ -12,6 +12,8 @@
 ![counties](https://img.shields.io/badge/Counties-45-success.svg?style=flat-square&logo=appveyor)
 ![hospitalization](https://img.shields.io/badge/Hospitalizations-274-success.svg?style=flat-square&logo=appveyor)
 
+### [stufield.github.io/COVID-19](https://stufield.github.io/COVID-19)
+
 # COVID-19 Pandemic - Colorado
 
 This page highlights the `COVID-19` cases in Colorado both through time
