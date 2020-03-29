@@ -1,6 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# Outbreak Summary
+
+![cases](https://img.shields.io/badge/Cases-2061-success.svg?style=flat&logo=appveyor)
+![tested](https://img.shields.io/badge/People_Tested-13276-success.svg?style=flat&logo=appveyor)
+![pct\_pos](https://img.shields.io/badge/Case_Rate-15.5%25-success.svg?style=flat&logo=appveyor)
+![deaths](https://img.shields.io/badge/Deaths-44-success.svg?style=flat&logo=appveyor)
+![counties](https://img.shields.io/badge/Counties-45-success.svg?style=flat&logo=appveyor)
+![hospitalization](https://img.shields.io/badge/Hospitalizations-274-success.svg?style=flat&logo=appveyor)
+
+-----
+
 # COVID-19 Pandemic - Colorado Edition
 
 This page highlights the `COVID-19` cases in Colorado both through time
@@ -12,11 +23,34 @@ Environment (CDPHE).
 See the `CDPHE` [website](https://covid19.colorado.gov/case-data) for
 more information.
 
+## Cases by Sex
+
+| Sex     | Percent |
+| :------ | :------ |
+| Female  | 52.26%  |
+| Male    | 47.16%  |
+| Unknown | 0.58%   |
+
+## Cases by Age
+
+| Sex     | Percent |
+| :------ | :------ |
+| 0-9     | 1.07%   |
+| 10-19   | 2.33%   |
+| 20-29   | 14.94%  |
+| 30-39   | 17.03%  |
+| 40-49   | 15.67%  |
+| 50-59   | 17.08%  |
+| 60-69   | 14.22%  |
+| 70-79   | 10.67%  |
+| 80+     | 6.55%   |
+| Unknown | 0.44%   |
+
 ## COVID-19 Cases by County
 
 ``` r
 county_data %>%
-  ggplot(aes(y = value, x = County)) +
+  ggplot(aes(y = value, x = reorder(County, -value))) +
   geom_bar(stat = "identity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(y = "Cases", title = "Colorado Cases by County")
