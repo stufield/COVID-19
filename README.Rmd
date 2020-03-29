@@ -1,17 +1,29 @@
 ---
 output: github_document
-always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
-library(tidyverse)
-library(DT)
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(tidyverse)
+
+# Set ggplot theme
+thm <- ggplot2::theme_bw(base_size = 11, base_family = "") +
+  ggplot2::theme(
+    panel.background  = element_rect(fill = "transparent", colour = NA),
+    plot.background   = element_rect(fill = "transparent", colour = NA),
+    legend.position   = "top",
+    legend.background = element_rect(fill = "transparent", colour = NA),
+    legend.key        = element_rect(fill = "transparent", colour = NA),
+    plot.title        = element_text(hjust = 0.5, size = ggplot2::rel(1.5))
+  )
+theme_set(thm)
+
+# COVID data
 data <- readr::read_csv("data/covid19_case_summary_2020-03-28.csv")
 state_data <- dplyr::filter(data, attribute == "Statewide") %>% 
   dplyr::select(Metric = metric, number = value)
@@ -25,23 +37,25 @@ time_data <- dplyr::filter(data, grepl("^2020", attribute)) %>%
   )
 
 # badges
+badge_style <- "flat-square"
+logo        <- "appveyor"
 n_cases <- pull(filter(state_data, Metric == "Cases"), number)
-cases <- sprintf("https://img.shields.io/badge/Cases-%i-%s.svg?style=flat&logo=appveyor",
-                 n_cases, "success")
+cases <- sprintf("https://img.shields.io/badge/Cases-%i-%s.svg?style=%s&logo=%s",
+                 n_cases, "success", badge_style, logo)
 value  <- dplyr::pull(filter(state_data, Metric == "People Tested"), number)
-tested <- sprintf("https://img.shields.io/badge/People_Tested-%i-%s.svg?style=flat&logo=appveyor",
-                 value, "success")
-pct_pos <- sprintf("https://img.shields.io/badge/Case_Rate-%0.1f%%25-%s.svg?style=flat&logo=appveyor",
-                 n_cases / value * 100, "success")
+tested <- sprintf("https://img.shields.io/badge/People_Tested-%i-%s.svg?style=%s&logo=%s",
+                 value, "success", badge_style, logo)
+pct_pos <- sprintf("https://img.shields.io/badge/Case_Rate-%0.1f%%25-%s.svg?style=%s&logo=%s",
+                 n_cases / value * 100, "success", badge_style, logo)
 value  <- filter(state_data, Metric == "Deaths") %>% dplyr::pull(number)
-deaths <- sprintf("https://img.shields.io/badge/Deaths-%i-%s.svg?style=flat&logo=appveyor",
-                  value, "success")
+deaths <- sprintf("https://img.shields.io/badge/Deaths-%i-%s.svg?style=%s&logo=%s",
+                  value, "success", badge_style, logo)
 value    <- filter(county_data, value > 0) %>% nrow()
-counties <- sprintf("https://img.shields.io/badge/Counties-%i-%s.svg?style=flat&logo=appveyor", 
-                    value, "success")
+counties <- sprintf("https://img.shields.io/badge/Counties-%i-%s.svg?style=%s&logo=%s", 
+                    value, "success", badge_style, logo)
 value <- filter(state_data, Metric == "Hospitalizations") %>% dplyr::pull(number)
-hospitalizations <- sprintf("https://img.shields.io/badge/Hospitalizations-%i-%s.svg?style=flat&logo=appveyor",
-                 value, "success")
+hospitalizations <- sprintf("https://img.shields.io/badge/Hospitalizations-%i-%s.svg?style=%s&logo=%s",
+                 value, "success", badge_style, logo)
 ```
 
 
@@ -54,9 +68,8 @@ hospitalizations <- sprintf("https://img.shields.io/badge/Hospitalizations-%i-%s
 ![counties](`r counties`)
 ![hospitalization](`r hospitalizations`)
 
--------------
 
-# COVID-19 Pandemic - Colorado Edition
+# COVID-19 Pandemic - Colorado
 
 This page highlights the `COVID-19` cases in Colorado both 
 through time and by county (CO has 64 counties).
@@ -64,8 +77,10 @@ through time and by county (CO has 64 counties).
 Data is obtained from the Colorado Department of Public Health & Environment 
 (CDPHE).
 
-See the `CDPHE` [website](https://covid19.colorado.gov/case-data) for more information.
+See the `CDPHE` [website](https://covid19.colorado.gov/case-data) for more 
+information and raw case data.
 
+----------
 
 ## Cases by Sex
 ```{r sex_data, echo = FALSE}
@@ -76,11 +91,12 @@ dplyr::filter(data, description == "Case Counts by Sex" & metric == "Percent") %
 ```
 
 ## Cases by Age
-```{r age_data, echo = FALSE}
+```{r age_data, fig.width=10, fig.height=5}
 dplyr::filter(data, description == "Case Counts by Age Group" & metric == "Percent") %>% 
-  dplyr::select(Sex = attribute, Percent = value) %>%  
-  dplyr::mutate(Percent = sprintf("%0.2f%%", Percent)) %>% 
-  knitr::kable()
+  dplyr::select(Age = attribute, Percent = value) %>%
+  ggplot(aes(x = Age, y = Percent)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Case Proportion by Age")
 ```
 
 ## COVID-19 Cases by County
@@ -89,7 +105,7 @@ county_data %>%
   ggplot(aes(y = value, x = reorder(County, -value))) +
   geom_bar(stat = "identity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(y = "Cases", title = "Colorado Cases by County")
+  labs(y = "Cases", title = "Colorado Cases by County", x = "County")
 ```
 
 ## COVID-19 Cases Over Time
@@ -100,7 +116,7 @@ time_data %>%
   geom_smooth(method = "loess", se = FALSE) +
   ggplot2::scale_x_date(breaks = time_data$date) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(y = "Cases", title = "Colorado Cases by Date")
+  labs(y = "Cases", title = "Colorado Cases by Date", x = "")
 ```
 
 -------------
