@@ -56,10 +56,13 @@ counties <- sprintf("https://img.shields.io/badge/Counties-%i-%s.svg?style=%s&lo
 value <- filter(state_data, Metric == "Hospitalizations") %>% dplyr::pull(number)
 hospitalizations <- sprintf("https://img.shields.io/badge/Hospitalizations-%i-%s.svg?style=%s&logo=%s",
                  value, "success", badge_style, logo)
+
+cur_date <- sort(time_data$date) %>% tail(1) %>% format("%B %d, %Y")
 ```
 
 
-# Outbreak Summary
+# Outbreak Summary 
+### `r cur_date`
 
 ![cases](`r cases`)
 ![tested](`r tested`)
@@ -114,7 +117,7 @@ time_data %>%
   ggplot(aes(x = date, y = value)) +
   geom_point(size = 2) +
   geom_smooth(method = "loess", se = FALSE) +
-  ggplot2::scale_x_date(breaks = time_data$date) +
+  scale_x_date(breaks = time_data$date) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(y = "Cases", title = "Colorado Cases by Date", x = "")
 ```

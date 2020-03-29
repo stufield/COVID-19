@@ -3,6 +3,8 @@
 
 # Outbreak Summary
 
+### March 27, 2020
+
 ![cases](https://img.shields.io/badge/Cases-2061-success.svg?style=flat-square&logo=appveyor)
 ![tested](https://img.shields.io/badge/People_Tested-13276-success.svg?style=flat-square&logo=appveyor)
 ![pct\_pos](https://img.shields.io/badge/Case_Rate-15.5%25-success.svg?style=flat-square&logo=appveyor)
@@ -62,7 +64,7 @@ time_data %>%
   ggplot(aes(x = date, y = value)) +
   geom_point(size = 2) +
   geom_smooth(method = "loess", se = FALSE) +
-  ggplot2::scale_x_date(breaks = time_data$date) +
+  scale_x_date(breaks = time_data$date) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(y = "Cases", title = "Colorado Cases by Date", x = "")
 ```
