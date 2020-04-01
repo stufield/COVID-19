@@ -24,16 +24,18 @@ thm <- ggplot2::theme_bw(base_size = 11, base_family = "") +
 theme_set(thm)
 
 # COVID data
-data <- readr::read_csv("data/covid19_case_summary_2020-03-30.csv")
+data <- readr::read_csv("data/covid19_case_summary_2020-03-31.csv")
 state_data <- dplyr::filter(data, attribute == "Statewide") %>% 
   dplyr::select(Metric = metric, number = value)
 county_data <- data %>%
   dplyr::filter(description == "Case Counts by County" & metric == "Cases") %>%
   dplyr::mutate(County = stringr::str_remove(attribute, " County$")) %>%
   dplyr::filter(County !=  "Grand Total")
-time_data <- dplyr::filter(data, grepl("^2020", attribute)) %>%
+time_data <- data %>% 
+  dplyr::filter(grepl("^2020", attribute) & grepl("^Case Counts", description)) %>%
   dplyr::mutate(
-    date = as.Date(trunc(strptime(attribute, format = "%Y-%m-%d", tz = "MST"), "day"))
+    date = as.Date(trunc(strptime(attribute, format = "%Y-%m-%d", tz = "MST"), "day")),
+    total = cumsum(value)
   )
 
 # badges
