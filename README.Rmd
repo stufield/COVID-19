@@ -24,7 +24,7 @@ thm <- ggplot2::theme_bw(base_size = 11, base_family = "") +
 theme_set(thm)
 
 # COVID data
-data <- readr::read_csv("data/covid19_case_summary_2020-03-31.csv")
+data <- readr::read_csv("data/covid19_case_summary_2020-04-01.csv")
 state_data <- dplyr::filter(data, attribute == "Statewide") %>% 
   dplyr::select(Metric = metric, number = value)
 county_data <- data %>%
