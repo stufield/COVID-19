@@ -3,14 +3,14 @@
 
 # Outbreak Summary
 
-### March 31, 2020
+### April 02, 2020
 
-![cases](https://img.shields.io/badge/Cases-3342-success.svg?style=flat-square&logo=appveyor)
-![tested](https://img.shields.io/badge/People_Tested-18645-success.svg?style=flat-square&logo=appveyor)
-![pct\_pos](https://img.shields.io/badge/Case_Rate-17.9%25-success.svg?style=flat-square&logo=appveyor)
-![deaths](https://img.shields.io/badge/Deaths-80-success.svg?style=flat-square&logo=appveyor)
-![counties](https://img.shields.io/badge/Counties-51-success.svg?style=flat-square&logo=appveyor)
-![hospitalization](https://img.shields.io/badge/Hospitalizations-620-success.svg?style=flat-square&logo=appveyor)
+![cases](https://img.shields.io/badge/Cases-4173-success.svg?style=flat-square&logo=appveyor)
+![tested](https://img.shields.io/badge/People_Tested-22071-success.svg?style=flat-square&logo=appveyor)
+![pct\_pos](https://img.shields.io/badge/Case_Rate-18.9%25-success.svg?style=flat-square&logo=appveyor)
+![deaths](https://img.shields.io/badge/Deaths-111-success.svg?style=flat-square&logo=appveyor)
+![counties](https://img.shields.io/badge/Counties-54-success.svg?style=flat-square&logo=appveyor)
+![hospitalization](https://img.shields.io/badge/Hospitalizations-823-success.svg?style=flat-square&logo=appveyor)
 
 ### [stufield.github.io/COVID-19](https://stufield.github.io/COVID-19)
 
@@ -31,18 +31,22 @@ more information and raw case data.
 
 | Sex     | Percent |
 | :------ | :------ |
-| Female  | 51.74%  |
-| Male    | 47.88%  |
-| Unknown | 0.39%   |
+| Female  | 51.47%  |
+| Male    | 48.09%  |
+| Unknown | 0.43%   |
 
 ## Cases by Age
 
 ``` r
-dplyr::filter(data, description == "Case Counts by Age Group" & metric == "Percent") %>% 
-  dplyr::select(Age = attribute, Percent = value) %>%
-  ggplot(aes(x = Age, y = Percent)) +
-  geom_bar(stat = "identity") +
-  ggtitle("Case Proportion by Age")
+data %>%
+  dplyr::filter(
+    description == "Case Counts by Age Group, Hospitalizations, and Deaths" &
+      attribute != "Note") %>%
+  tidyr::separate(attribute, into = c("Age", "Outcome"), sep = ", ") %>%
+  dplyr::select(Age, Outcome, Cases = value) %>%
+  ggplot(aes(x = Age, y = Cases, group = Outcome)) +
+  geom_bar(stat = "identity", aes(fill = Outcome)) +
+  ggtitle("Case Proportion by Age & Outcome")
 ```
 
 ![](README_files/figure-gfm/age_data-1.png)<!-- -->
