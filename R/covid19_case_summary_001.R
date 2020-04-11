@@ -1,6 +1,6 @@
 library(tidyverse)
 
-data <- readr::read_csv("data/covid19_case_summary_2020-04-03.csv")
+data <- readr::read_csv("data/covid19_case_summary_2020-04-11.csv")
 
 state_data <- dplyr::filter(data, attribute == "Statewide") %>%
   dplyr::select(Metric = metric, number = value)
@@ -10,11 +10,13 @@ county_data <- data %>%
   dplyr::mutate(County = stringr::str_remove(attribute, " County$")) %>%
   dplyr::filter(County !=  "Grand Total")
 
-time_data <- dplyr::filter(data, grepl("^2020", attribute)) %>%
+time_data <- dplyr::filter(data,
+                           description == "Case Counts by Onset Date" &
+                             !is.na(value)) %>%
   dplyr::mutate(
     date = as.Date(trunc(strptime(attribute, format = "%Y-%m-%d", tz = "MST"), "day")),
     sum  = cumsum(value)
-  ) %>%
+  ) #%>%
   dplyr::select(date, value, sum)
 
 # Barchart by Age & Outcome ----

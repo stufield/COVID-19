@@ -3,14 +3,14 @@
 
 # Outbreak Summary
 
-### April 06, 2020
+### April 10, 2020
 
-![cases](https://img.shields.io/badge/Cases-5429-success.svg?style=flat-square&logo=appveyor)
-![tested](https://img.shields.io/badge/People_Tested-28094-success.svg?style=flat-square&logo=appveyor)
-![pct\_pos](https://img.shields.io/badge/Case_Rate-19.3%25-success.svg?style=flat-square&logo=appveyor)
-![deaths](https://img.shields.io/badge/Deaths-179-success.svg?style=flat-square&logo=appveyor)
-![counties](https://img.shields.io/badge/Counties-55-success.svg?style=flat-square&logo=appveyor)
-![hospitalization](https://img.shields.io/badge/Hospitalizations-1079-success.svg?style=flat-square&logo=appveyor)
+![cases](https://img.shields.io/badge/Cases-6893-success.svg?style=flat-square&logo=appveyor)
+![tested](https://img.shields.io/badge/People_Tested-34873-success.svg?style=flat-square&logo=appveyor)
+![pct\_pos](https://img.shields.io/badge/Case_Rate-19.8%25-success.svg?style=flat-square&logo=appveyor)
+![deaths](https://img.shields.io/badge/Deaths-274-success.svg?style=flat-square&logo=appveyor)
+![counties](https://img.shields.io/badge/Counties-57-success.svg?style=flat-square&logo=appveyor)
+![hospitalization](https://img.shields.io/badge/Hospitalizations-1376-success.svg?style=flat-square&logo=appveyor)
 
 ### [stufield.github.io/COVID-19](https://stufield.github.io/COVID-19)
 
@@ -31,9 +31,9 @@ more information and raw case data.
 
 | Sex     | Percent |
 | :------ | :------ |
-| Female  | 51.85%  |
-| Male    | 47.60%  |
-| Unknown | 0.55%   |
+| Female  | 52.20%  |
+| Male    | 47.32%  |
+| Unknown | 0.48%   |
 
 ## Cases by Age
 
@@ -41,7 +41,7 @@ more information and raw case data.
 data %>%
   dplyr::filter(
     description == "Case Counts by Age Group, Hospitalizations, and Deaths" &
-      attribute != "Note") %>%
+      !is.na(value)) %>% 
   tidyr::separate(attribute, into = c("Age", "Outcome"), sep = ", ") %>%
   dplyr::select(Age, Outcome, Cases = value) %>%
   ggplot(aes(x = Age, y = Cases, group = Outcome)) +

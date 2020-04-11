@@ -24,7 +24,7 @@ thm <- ggplot2::theme_bw(base_size = 11, base_family = "") +
 theme_set(thm)
 
 # COVID data
-data <- readr::read_csv("data/covid19_case_summary_2020-04-07.csv")
+data <- readr::read_csv("data/covid19_case_summary_2020-04-11.csv")
 state_data <- dplyr::filter(data, attribute == "Statewide") %>% 
   dplyr::select(Metric = metric, number = value)
 county_data <- data %>%
@@ -32,7 +32,8 @@ county_data <- data %>%
   dplyr::mutate(County = stringr::str_remove(attribute, " County$")) %>%
   dplyr::filter(County !=  "Grand Total")
 time_data <- data %>% 
-  dplyr::filter(grepl("^2020", attribute) & grepl("^Case Counts", description)) %>%
+  dplyr::filter(description == "Case Counts by Onset Date" &
+                  !is.na(value)) %>% 
   dplyr::mutate(
     date = as.Date(trunc(strptime(attribute, format = "%Y-%m-%d", tz = "MST"), "day")),
     total = cumsum(value)
@@ -90,7 +91,8 @@ information and raw case data.
 
 ## Cases by Sex
 ```{r sex_data, echo = FALSE}
-dplyr::filter(data, description == "Case Counts by Sex" & metric == "Percent") %>% 
+dplyr::filter(data, description == "COVID-19 in Colorado by Sex" &
+                metric == "Percent of Cases") %>% 
   dplyr::select(Sex = attribute, Percent = value) %>%  
   dplyr::mutate(Percent = sprintf("%0.2f%%", Percent)) %>% 
   knitr::kable()
@@ -101,7 +103,7 @@ dplyr::filter(data, description == "Case Counts by Sex" & metric == "Percent") %
 data %>%
   dplyr::filter(
     description == "Case Counts by Age Group, Hospitalizations, and Deaths" &
-      attribute != "Note") %>%
+      !is.na(value)) %>% 
   tidyr::separate(attribute, into = c("Age", "Outcome"), sep = ", ") %>%
   dplyr::select(Age, Outcome, Cases = value) %>%
   ggplot(aes(x = Age, y = Cases, group = Outcome)) +
