@@ -3,14 +3,14 @@
 
 # Outbreak Summary
 
-### April 10, 2020
+### April 11, 2020
 
-![cases](https://img.shields.io/badge/Cases-6893-success.svg?style=flat-square&logo=appveyor)
-![tested](https://img.shields.io/badge/People_Tested-34873-success.svg?style=flat-square&logo=appveyor)
-![pct\_pos](https://img.shields.io/badge/Case_Rate-19.8%25-success.svg?style=flat-square&logo=appveyor)
-![deaths](https://img.shields.io/badge/Deaths-274-success.svg?style=flat-square&logo=appveyor)
+![cases](https://img.shields.io/badge/Cases-7303-success.svg?style=flat-square&logo=appveyor)
+![tested](https://img.shields.io/badge/People_Tested-37153-success.svg?style=flat-square&logo=appveyor)
+![pct\_pos](https://img.shields.io/badge/Case_Rate-19.7%25-success.svg?style=flat-square&logo=appveyor)
+![deaths](https://img.shields.io/badge/Deaths-290-success.svg?style=flat-square&logo=appveyor)
 ![counties](https://img.shields.io/badge/Counties-57-success.svg?style=flat-square&logo=appveyor)
-![hospitalization](https://img.shields.io/badge/Hospitalizations-1376-success.svg?style=flat-square&logo=appveyor)
+![hospitalization](https://img.shields.io/badge/Hospitalizations-1417-success.svg?style=flat-square&logo=appveyor)
 
 ### [stufield.github.io/COVID-19](https://stufield.github.io/COVID-19)
 
@@ -31,9 +31,9 @@ more information and raw case data.
 
 | Sex     | Percent |
 | :------ | :------ |
-| Female  | 52.20%  |
-| Male    | 47.32%  |
-| Unknown | 0.48%   |
+| Female  | 52.23%  |
+| Male    | 47.25%  |
+| Unknown | 0.52%   |
 
 ## Cases by Age
 
